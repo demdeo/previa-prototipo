@@ -1628,7 +1628,7 @@ window.PREVIA_DATA = {
     <div class="wel-cta"><button class="btn primary big" data-w="tour">▶ Hacer el recorrido guiado<small>7 escenas, unos 3 minutos</small></button><button class="btn big" data-w="free">Explorar por mi cuenta<small>Con la obra de ejemplo cargada</small></button></div>
     <div class="kick">O entrá directamente como…</div>
     <div class="wel-roles">${ROLE_CARDS.map(([r, t]) => { const p = window.PREVIA_DATA.personas[r]; return `<button class="wel-role" data-w="rol" data-r="${r}"><span class="avatar">${p.ini}</span><b>${esc(p.nombre)}</b><small>${esc(p.rol)}</small><span>${esc(t)}</span></button>`; }).join("")}</div>
-    <p class="small muted wel-tip">Tip: con <b>«¿Por qué?»</b>, arriba, ves de qué entrevista o testeo sale cada función. Los términos subrayados tienen su explicación.</p>
+    <p class="small muted wel-tip">Tip: con <b>«¿Por qué?»</b>, arriba, ves de qué entrevista o testeo sale cada función. Los términos subrayados tienen su explicación. <a href="porque.html">Cómo usamos el trabajo de la cursada para llegar a PREVIA</a>.</p>
   </div>`;
   document.body.appendChild(welcome);
   function hideWelcome() { welcome.hidden = true; }
@@ -1658,11 +1658,24 @@ window.PREVIA_DATA = {
   P.onRender(() => { applyWhy(); wrapTerms($("#view")); wrapTerms($("#overlay")); });
   applyWhy(); wrapTerms($("#view"));
 
+  // #porque abre la obra de ejemplo con «¿Por qué?» activado y un ejemplo abierto.
+  // #porque-5 (desvío de cemento) y #porque-7 (modificación del cliente) abren en esa escena.
+  function enterWhy(n) {
+    let key = "certeza";
+    if (n === 5) { P.preset(5); key = "alertaCemento"; }
+    else if (n === 7) { P.preset(7); key = "modificacion"; }
+    else { P.cargarEjemplo(); S.view = "presupuesto"; }
+    P.render();
+    setWhy(true);
+    setTimeout(() => { const el = $(WHY[key].sel.split(",")[0]); if (el) showWhy(key, el); }, 500);
+  }
+
   const h = location.hash;
-  const mTour = h.match(/^#tour-(\d)$/), mRol = h.match(/^#rol-(\w+)$/);
-  if (navigator.webdriver) return; // las grabaciones del video no muestran la guía
+  const mTour = h.match(/^#tour-(\d)$/), mRol = h.match(/^#rol-(\w+)$/), mWhy = h.match(/^#porque(?:-(\d))?$/);
+  if (navigator.webdriver && !window.PREVIA_CAPTURA) return; // las grabaciones del video no muestran la guía
   if (mTour) startTour(Math.min(CH.length, Math.max(1, parseInt(mTour[1], 10))) - 1, mTour[1] === "1");
   else if (mRol) { history.replaceState(null, "", location.pathname + location.search); enterAs(mRol[1]); }
+  else if (mWhy) { history.replaceState(null, "", location.pathname + location.search); enterWhy(parseInt(mWhy[1] || "1", 10)); }
   else if (P.scene === 1) welcome.hidden = false;
 })();
 
