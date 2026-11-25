@@ -283,6 +283,131 @@ dl.kv dd { margin: 0; font-weight: 600; }
   .role-menu { right: -8px; width: min(300px, calc(100vw - 32px)); }
 }
 
+/* =========================================================
+   Guía: bienvenida, recorrido guiado, modo «¿Por qué?» y glosario (guia.js)
+   ========================================================= */
+.top-btn { border: 1px solid var(--line); background: #fff; border-radius: 20px; padding: 8px 15px; font-weight: 650; font-size: .9rem; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+.top-btn:hover { border-color: #b7c4c1; }
+.top-btn.tour { background: var(--green); border-color: var(--green); color: #fff; }
+.top-btn.tour:hover { background: var(--green-d); }
+.top-btn.on { background: var(--petrol); border-color: var(--petrol); color: #fff; }
+/* con los botones nuevos, la ruta de navegación se recorta en lugar de pisarlos */
+.top { gap: 16px; }
+.crumbs { min-width: 0; flex: 1; overflow: hidden; white-space: nowrap; }
+.crumbs > * { flex: none; }
+.crumbs b { overflow: hidden; text-overflow: ellipsis; flex: 0 1 auto; }
+.top-right { flex: none; }
+.role-btn .who { white-space: nowrap; }
+@media (min-width: 861px) { html, body { overflow: hidden; } }
+@media (max-width: 1180px) and (min-width: 861px) { .top-btn .lg, .role-btn .who small { display: none; } }
+
+/* dimensiones (mismos colores que las etiquetas D1 a D7 de los murales) */
+.dims { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 12px; }
+.dim { font-size: .78rem; font-weight: 650; padding: 3px 9px; border-radius: 10px; color: #fff; background: var(--petrol); }
+.dim-D1 { background: #ffe33b; color: #3d3400; }
+.dim-D2 { background: #f07a2a; }
+.dim-D3 { background: #2f9a10; }
+.dim-D4 { background: #1593c0; }
+.dim-D5 { background: #e0164f; }
+.dim-D6 { background: #9a2fcb; }
+.dim-D7 { background: var(--petrol); }
+
+/* citas de evidencia */
+blockquote.ev { margin: 8px 0; padding: 9px 12px 9px 14px; background: var(--paper); border-left: 4px solid var(--petrol); border-radius: 0 var(--r-s) var(--r-s) 0; font-size: .9rem; }
+blockquote.ev-q { border-left-color: #d99a00; }
+blockquote.ev-n { border-left-color: #f07a2a; }
+blockquote.ev-i { border-left-color: #2f9a10; }
+blockquote.ev .ev-k { display: block; font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-2); margin-bottom: 2px; }
+blockquote.ev cite { display: block; margin-top: 4px; font-size: .76rem; font-style: normal; color: var(--ink-2); }
+.kick { font-size: .74rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--petrol); margin-top: 12px; }
+
+/* recorrido */
+.tour-dim { position: fixed; inset: 0; background: rgba(18,38,58,.55); z-index: 70; }
+.tour-spot { position: fixed; z-index: 70; border-radius: 10px; pointer-events: none; box-shadow: 0 0 0 9999px rgba(18,38,58,.45); transition: left .2s, top .2s, width .2s, height .2s; }
+.tour-spot::after { content: ""; position: absolute; inset: -3px; border: 3px solid #7fe0cf; border-radius: 12px; animation: tour-pulse 1.6s ease-in-out infinite; }
+@keyframes tour-pulse { 50% { box-shadow: 0 0 0 8px rgba(127,224,207,.35); } }
+#tour-card { position: fixed; z-index: 72; width: 380px; background: #fff; border-radius: 12px; box-shadow: 0 20px 50px rgba(18,38,58,.35); padding: 16px 18px 14px; }
+#tour-card.center { left: 50% !important; top: 50% !important; transform: translate(-50%, -50%); width: min(600px, calc(100vw - 32px)); max-height: calc(100vh - 32px); overflow: auto; }
+#tour-card h3 { margin: 6px 0 8px; font-size: 1.25rem; }
+#tour-card p { margin: 6px 0; }
+.tc-head { display: flex; align-items: center; gap: 10px; }
+.tc-kick { font-size: .78rem; font-weight: 700; color: var(--petrol); text-transform: uppercase; letter-spacing: .05em; white-space: nowrap; }
+.dots { display: flex; gap: 5px; margin-left: auto; }
+.dots .dot { width: 11px; height: 11px; border-radius: 50%; border: 0; padding: 0; background: #d5dddb; }
+.dots .dot.done { background: #9fd8bd; }
+.dots .dot.on { background: var(--green); }
+#tour-card .x, #why-pop .x { border: 0; background: none; font-size: 1.4rem; line-height: 1; color: var(--ink-2); padding: 0 2px; }
+.tc-step { font-size: .8rem; color: var(--ink-2); margin-top: 8px; }
+.tc-text { font-size: 1.02rem; }
+.tc-wait { font-size: .82rem; color: var(--ink-2); font-style: italic; }
+.tc-foot { display: flex; justify-content: flex-end; align-items: center; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+.tc-foot .link { margin-right: auto; border: 0; background: none; color: var(--ink-2); text-decoration: underline; font-size: .85rem; padding: 0; }
+.who { display: flex; align-items: center; gap: 10px; margin: 4px 0 6px; }
+.who small { display: block; color: var(--ink-2); font-size: .8rem; }
+dl.needs { display: grid; grid-template-columns: 150px 1fr; gap: 4px 12px; margin: 8px 0; font-size: .92rem; }
+dl.needs dt { color: var(--ink-2); }
+dl.needs dd { margin: 0; font-weight: 600; }
+
+/* modo «¿Por qué?» */
+body.why-on [data-why] { position: relative; outline: 2px dashed var(--petrol); outline-offset: 3px; cursor: help; }
+body.why-on [data-why]::after { content: "¿Por qué? " attr(data-whyd); position: absolute; top: -10px; right: 6px; background: var(--petrol); color: #fff; font-size: .68rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; white-space: nowrap; pointer-events: none; z-index: 5; font-style: normal; text-transform: none; }
+body.why-on .panel[data-why]::after, body.why-on .phone[data-why]::after { top: 8px; right: 8px; }
+#why-bar { position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%); z-index: 65; background: var(--petrol); color: #fff; border-radius: 22px; padding: 8px 10px 8px 18px; display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 30px rgba(18,38,58,.3); width: max-content; max-width: calc(100vw - 24px); font-size: .9rem; }
+#why-bar[hidden] { display: none; }
+#why-bar .btn { color: var(--ink); }
+#why-pop { position: fixed; z-index: 66; width: 420px; max-height: calc(100vh - 24px); overflow: auto; background: #fff; border-radius: 12px; box-shadow: 0 20px 50px rgba(18,38,58,.35); padding: 16px 18px; }
+#why-pop[hidden] { display: none; }
+#why-pop .x { float: right; }
+#why-pop h3 { margin: 4px 0 6px; font-size: 1.15rem; }
+#why-pop .need { font-size: .93rem; }
+#why-pop.sheet { left: 12px; right: 12px; bottom: 12px; width: auto; max-height: 60vh; }
+
+/* glosario */
+abbr.gl { text-decoration: underline dotted #7a8f9c; text-decoration-thickness: 1.5px; text-underline-offset: 3px; cursor: help; }
+#gl-tip { position: fixed; z-index: 90; background: var(--ink); color: #fff; border-radius: var(--r-m); padding: 10px 13px; font-size: .86rem; box-shadow: 0 10px 30px rgba(18,38,58,.3); pointer-events: none; }
+#gl-tip[hidden] { display: none; }
+#gl-tip b { display: block; color: #7fe0cf; margin-bottom: 2px; }
+
+/* bienvenida */
+#welcome { position: fixed; inset: 0; z-index: 85; background: rgba(18,38,58,.62); display: grid; place-items: center; padding: 16px; overflow: auto; }
+#welcome[hidden], #tour-card[hidden], .tour-spot[hidden], .tour-dim[hidden] { display: none; }
+.wel { background: #fff; border-radius: 14px; width: min(920px, 100%); padding: 28px 32px 22px; box-shadow: 0 30px 70px rgba(0,0,0,.35); }
+.wel-brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.3rem; letter-spacing: .04em; }
+.wel-brand svg { width: 32px; height: 28px; }
+.wel h2 { font-size: 1.6rem; margin: 10px 0 6px; font-stretch: 90%; }
+.wel > p { color: var(--ink-2); margin: 0 0 16px; }
+.wel-cta { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 8px; }
+.btn.big { flex-direction: column; align-items: flex-start; padding: 14px 18px; font-size: 1.05rem; gap: 2px; text-align: left; }
+.btn.big small { font-weight: 400; font-size: .85rem; opacity: .85; }
+.wel-roles { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 8px; }
+.wel-role { border: 1px solid var(--line); background: #fff; border-radius: var(--r-m); padding: 12px; text-align: left; display: flex; flex-direction: column; gap: 3px; }
+.wel-role:hover { border-color: var(--green); background: #f6fbfa; }
+.wel-role .avatar { margin-bottom: 4px; }
+.wel-role small { color: var(--ink-2); font-size: .8rem; }
+.wel-role span:last-child { font-size: .84rem; color: var(--ink-2); margin-top: 4px; }
+.wel-tip { margin: 16px 0 0; }
+#toasts { z-index: 80; }
+
+@media (max-width: 860px) {
+  html, body { overflow-x: clip; }
+  .top-right { gap: 8px; flex-wrap: wrap; justify-content: flex-end; margin-left: auto; }
+  .crumbs { white-space: normal; flex-wrap: wrap; flex-basis: 100%; }
+  .bell { width: 38px; height: 38px; }
+  .top-btn { padding: 7px 11px; font-size: .84rem; }
+  .top-btn .lg { display: none; }
+  #tour-card.sheet { left: 10px !important; right: 10px; top: auto !important; bottom: 10px; width: auto; max-height: 46vh; overflow: auto; }
+  dl.needs { grid-template-columns: 1fr; }
+  .wel { padding: 20px 18px; }
+  .wel h2 { font-size: 1.3rem; }
+  .wel-cta { grid-template-columns: 1fr; }
+  .wel-roles { grid-template-columns: 1fr 1fr; }
+  #why-bar { top: auto; bottom: 10px; border-radius: 14px; font-size: .82rem; }
+}
+@media (max-width: 480px) {
+  .role-btn .who { display: none; }
+  .role-btn { padding: 3px; }
+}
+
 </style>
 </head>
 <body>
@@ -297,12 +422,14 @@ dl.kv dd { margin: 0; font-weight: 600; }
       <span>PREVIA</span>
     </div>
     <nav id="nav"></nav>
-    <div class="side-foot">Constructora Herrera<br><span>Prototipo v0.4, datos ficticios</span></div>
+    <div class="side-foot">Constructora Herrera<br><span>Prototipo v0.5, datos ficticios</span></div>
   </aside>
   <div class="main">
     <header class="top">
       <div class="crumbs" id="crumbs"></div>
       <div class="top-right">
+        <button class="top-btn tour" id="btn-tour" data-qa="tour-btn"><span aria-hidden="true">▶</span>Recorrido<span class="lg">guiado</span></button>
+        <button class="top-btn" id="btn-why" data-qa="why-btn" aria-pressed="false">¿Por qué?</button>
         <button class="bell" data-action="bell" data-qa="bell" aria-label="Notificaciones">
           <svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6v4l-2 3h16l-2-3V9a6 6 0 0 0-6-6zm0 18a3 3 0 0 0 3-3H9a3 3 0 0 0 3 3z" fill="currentColor"/></svg>
           <span class="dot" id="bell-dot" hidden></span>
@@ -495,13 +622,13 @@ window.PREVIA_DATA = {
         ${S.obra ? `<tr class="clickable fresh" data-action="nav" data-to="tablero"><td><b>${esc(S.obra.nombre)}</b></td><td class="num">${S.obra.m2} m²</td><td><span class="chip info">Presupuestando</span></td><td class="num">${S.avance} %</td><td class="num muted">en curso</td></tr>` : ""}
         ${D.obrasPrevias.map((o) => `<tr><td>${o.nombre}</td><td class="num">${o.m2} m²</td><td><span class="chip ${o.estado === "Terminada" ? "ok" : "info"}">${o.estado}</span></td><td class="num">${o.avance} %</td><td class="num">${o.desvio}</td></tr>`).join("")}
       </tbody></table>
-      <p class="small muted" style="margin:14px 0 0">Los desvíos de obras terminadas alimentan la memoria histórica que PREVIA usa como referencia al presupuestar.</p>
+      <p class="small muted" data-qa="memoria" style="margin:14px 0 0">Los desvíos de obras terminadas alimentan la memoria histórica que PREVIA usa como referencia al presupuestar.</p>
     </div>`;
 
   function certezaBar() {
     const c = certeza(), t = c.ok + c.vence + c.nd;
     const w = (v) => ((v / t) * 100).toFixed(1);
-    return `<div class="certeza">
+    return `<div class="certeza" data-qa="certeza">
       <div class="bar"><span class="s-ok" style="flex-basis:${w(c.ok)}%">${pct((c.ok / t) * 100, 0)}</span><span class="s-vence" style="flex-basis:${w(c.vence)}%">${pct((c.vence / t) * 100, 0)}</span><span class="s-nd" style="flex-basis:${w(c.nd)}%">${pct((c.nd / t) * 100, 0)}</span></div>
       <div class="legend"><span>Confirmado <b>${money(c.ok)}</b></span><span>Cotización por vencer <b>${money(c.vence)}</b></span><span>Sin definir <b>${money(c.nd)}</b></span></div>
     </div>`;
@@ -535,7 +662,7 @@ window.PREVIA_DATA = {
     return `
       <h1>Compras y proveedores</h1><p class="sub">Las compras quedan vinculadas a la partida del presupuesto.</p>
       <div class="grid2">
-        <div class="panel">
+        <div class="panel" data-qa="solicitud">
           <span class="badge-step">Solicitud de cotización SC-0031</span>
           <h2>Hierro ADN 420, primer tramo (columnas y vigas PB)</h2>
           <div class="row-fields">
@@ -548,10 +675,10 @@ window.PREVIA_DATA = {
           </div>
           ${S.solicitud.enviada ? `<div class="note-box">Enviada a ${sel.length} proveedores el ${D.hoy}. ${S.ofertasRecibidas ? `${ofertas.length} ofertas recibidas.` : "Esperando ofertas."}</div>` : `
           <label class="small muted" style="font-weight:600">Proveedores a consultar</label>
-          <div style="margin-top:8px">${D.proveedoresHierro.map((p) => `<label class="check" data-qa="prov-${p.id}"><input type="checkbox" data-action="prov" data-id="${p.id}" ${S.solicitud.provs.includes(p.id) ? "checked" : ""}><span class="grow"><b>${p.nombre}</b><br><span class="small muted">${p.zona}. ${p.ultimo}</span></span></label>`).join("")}</div>
+          <div style="margin-top:8px" data-qa="prov-lista">${D.proveedoresHierro.map((p) => `<label class="check" data-qa="prov-${p.id}"><input type="checkbox" data-action="prov" data-id="${p.id}" ${S.solicitud.provs.includes(p.id) ? "checked" : ""}><span class="grow"><b>${p.nombre}</b><br><span class="small muted">${p.zona}. ${p.ultimo}</span></span></label>`).join("")}</div>
           <button class="btn primary" data-action="enviar-solicitud" data-qa="enviar-solicitud" style="margin-top:8px">Enviar solicitud</button>`}
         </div>
-        <div class="panel">
+        <div class="panel" data-qa="ofertas">
           <h2>Ofertas recibidas</h2>
           ${ofertas.length ? `<table><thead><tr><th>Proveedor</th><th class="num">$/kg</th><th class="num">Total 800 kg</th><th>Entrega</th><th>Validez</th></tr></thead><tbody>
             ${ofertas.map((o) => `<tr class="clickable ${S.ofertaSel === o.id ? "sel" : ""} fresh" data-action="sel-oferta" data-id="${o.id}" data-qa="oferta-${o.id}"><td><b>${o.nombre}</b>${o.id === "oeste" ? `<br><span class="small muted">Cargada en el portal</span>` : ""}</td><td class="num">${money(o.pu)}</td><td class="num">${money(o.pu * 800)}</td><td>${o.entrega}</td><td>${o.validez}</td></tr>`).join("")}
@@ -589,7 +716,7 @@ window.PREVIA_DATA = {
 
   function kpis() {
     const proj = costoProyectado();
-    return `<div class="kpis">
+    return `<div class="kpis" data-qa="kpis">
       <div class="kpi"><div class="lab">Presupuesto original (costo)</div><div class="val">${money(244600000)}</div><div class="note">Importado el ${D.hoy}</div></div>
       <div class="kpi ${S.fresh.comp ? "upd" : ""}"><div class="lab">Costos comprometidos</div><div class="val">${money(S.comprometido)}</div><div class="note">${S.oc ? "Incluye " + S.oc.numero : "Órdenes de compra y contratos"}</div></div>
       <div class="kpi"><div class="lab">Pagado</div><div class="val">${money(S.pagado)}</div><div class="note">${pct((S.pagado / 244600000) * 100)} del original</div></div>
@@ -605,7 +732,7 @@ window.PREVIA_DATA = {
       ${kpis()}
       <div class="grid2">
         <div class="panel"><h2>Alertas</h2>
-          ${dif > 0 ? `<div class="alert ${S.expl.estado === "resuelta" ? "" : "warn"}" style="${S.expl.estado === "resuelta" ? "background:var(--ok-bg);border-color:#9fd8bd" : ""}"><div class="ico" style="${S.expl.estado === "resuelta" ? "background:var(--ok)" : ""}">${S.expl.estado === "resuelta" ? "✓" : "!"}</div>
+          ${dif > 0 ? `<div data-qa="alerta-cemento" class="alert ${S.expl.estado === "resuelta" ? "" : "warn"}" style="${S.expl.estado === "resuelta" ? "background:var(--ok-bg);border-color:#9fd8bd" : ""}"><div class="ico" style="${S.expl.estado === "resuelta" ? "background:var(--ok)" : ""}">${S.expl.estado === "resuelta" ? "✓" : "!"}</div>
             <div class="txt"><b>Consumo de cemento superior al previsto</b><small>Hormigonado de columnas. Requiere revisión del equipo.</small></div>
             <span class="chip ${est[0]}">${est[1]}</span><button class="btn small" data-action="drawer" data-d="cemento" data-qa="ver-detalle-cemento">Ver detalle</button></div>`
             : `<p class="muted">Sin alertas abiertas.</p>`}
@@ -628,7 +755,7 @@ window.PREVIA_DATA = {
     const adicional = m.nuevoCosto - m.costoOriginal;
     return `
       <h1>Comunicación y decisiones</h1><p class="sub">Solicitudes del cliente, aprobaciones y acuerdos.</p>
-      <div class="grid2"><div class="panel">
+      <div class="grid2"><div class="panel" data-qa="mod-panel">
         <span class="badge-step">Modificación ${m.numero}</span><h2>Revestimiento del living</h2>
         <div class="thread"><div class="msg"><div class="meta">Carolina Ruiz, cliente. ${m.recibido}</div><div class="body">${esc(m.mensaje)}</div></div></div>
         ${S.mod.estado === "recibida" ? `<button class="btn primary" data-action="open-modal" data-modal="evaluarMod" data-qa="evaluar-mod">Evaluar modificación</button>` : ""}
@@ -648,7 +775,7 @@ window.PREVIA_DATA = {
     const m = D.modificacion, adicional = m.nuevoCosto - m.costoOriginal;
     return `<div class="portal">
       <div class="portal-head"><span class="avatar">CR</span>Carolina Ruiz, tu obra con ${D.empresa}: ${esc(S.obra.nombre)}</div>
-      <div class="panel" style="max-width:760px">
+      <div class="panel" data-qa="portal-cliente" style="max-width:760px">
         <span class="badge-step">Modificación ${m.numero}, para tu aprobación</span><h2>Cambio de revestimiento del living a porcelanato premium</h2>
         <dl class="kv"><dt>Costo original</dt><dd>${money(m.costoOriginal)}</dd><dt>Nuevo costo</dt><dd>${money(m.nuevoCosto)}</dd>
           <dt>Costo adicional</dt><dd>${money(adicional)}</dd><dt>Impacto en plazo</dt><dd>Sin cambios</dd><dt>Respaldo</dt><dd>${m.adjunto}</dd>
@@ -672,7 +799,7 @@ window.PREVIA_DATA = {
         <div class="panel"><div class="small muted">Avance físico</div><div class="progress"><span style="width:${S.avance}%"></span></div><b>${S.avance} %</b></div>
         <div class="panel"><div class="small muted">Pendientes</div>${pend.map((p) => `<div style="margin-top:6px">${p}</div>`).join("")}</div>
       </div>
-      ${S.showHist ? `<div class="panel" style="margin-top:20px"><h2>Historial de decisiones</h2><ul class="timeline">
+      ${S.showHist ? `<div class="panel" style="margin-top:20px"><h2>Historial de decisiones</h2><ul class="timeline" data-qa="timeline">
         ${S.historial.map((h) => `<li data-action="drawer" data-d="${h.id}" data-qa="hist-${h.id}"><span class="when">${h.cuando}</span><span class="what">${h.titulo}<small>${h.detalle}</small></span><span class="chip ${h.chip}">${h.estado}</span></li>`).join("")}
       </ul></div>` : ""}`;
   };
@@ -698,7 +825,7 @@ window.PREVIA_DATA = {
         <button class="m-btn" data-action="m-enviar" data-qa="m-enviar">Enviar parte</button></div>
         ${S.mobile === "ok" ? `<div class="m-ok" data-qa="m-ok"><div><div class="tick">✓</div><b style="font-size:1.2rem">Parte registrado</b><p class="muted">Se actualizaron el consumo de materiales y el avance de la obra.</p></div></div>` : ""}`;
     }
-    return `<div class="phone-stage"><div class="phone"><div class="screen">${body}</div></div><div class="cap">PREVIA móvil, vista del capataz</div></div>`;
+    return `<div class="phone-stage"><div class="phone" data-qa="phone"><div class="screen">${body}</div></div><div class="cap">PREVIA móvil, vista del capataz</div></div>`;
   };
 
   // ---------------- capas: modal y panel lateral ----------------
@@ -757,7 +884,7 @@ window.PREVIA_DATA = {
       return `${close}<span class="badge-step">Partida</span><h2>${p.nombre}</h2>${estadoChip(p.estado)}
         <dl class="kv" style="margin-top:18px"><dt>Cantidad</dt><dd>${p.cant.toLocaleString("es-AR")} kg</dd><dt>Precio unitario</dt><dd>${money(p.pu)} por kg</dd><dt>Subtotal</dt><dd>${money(subtotal(p))}</dd>
         <dt>Cotización</dt><dd>${c.proveedor}, ${c.fecha}</dd><dt>Vence</dt><dd>${c.vence}, en 2 días</dd><dt>Peso en el costo</dt><dd>${pct((subtotal(p) / costoPartidas()) * 100)}</dd></dl>
-        <div class="note-box">${c.nota} Obras anteriores: el hierro subió en promedio 9 % entre la cotización y la compra.</div>
+        <div class="note-box" data-qa="memoria-hierro">${c.nota} Obras anteriores: el hierro subió en promedio 9 % entre la cotización y la compra.</div>
         <button class="btn primary" data-action="open-modal" data-modal="simulador" data-qa="simular">Simular escenario</button>`;
     }
     if (S.drawer === "cemento") {
@@ -766,7 +893,7 @@ window.PREVIA_DATA = {
       return `${close}<span class="badge-step">Alerta de consumo</span><h2>Consumo de cemento superior al previsto</h2>
         <dl class="kv"><dt>Previsto acumulado</dt><dd>${S.cemento.prev} bolsas</dd><dt>Registrado</dt><dd>${S.cemento.reg} bolsas</dd>
         <dt>Diferencia</dt><dd class="down">+${dif} bolsas (+${Math.round((dif / S.cemento.prev) * 100)} %)</dd><dt>Impacto estimado</dt><dd>${money(desvioCemento())}</dd><dt>Tarea</dt><dd>Hormigonado de columnas</dd></dl>
-        <div class="note-box">La alerta muestra una diferencia, no su causa. La causa la determina el equipo.</div>
+        <div class="note-box" data-qa="nota-causa">La alerta muestra una diferencia, no su causa. La causa la determina el equipo.</div>
         ${!e.estado ? `<div class="field"><label>Pedir explicación a</label><select id="resp" data-qa="resp-select"><option value="">Elegí un responsable</option><option value="ramon">Ramón Ortiz, capataz</option><option value="martin">Martín Herrera, dueño</option></select></div>
           <button class="btn primary" data-action="solicitar-expl" data-qa="solicitar-explicacion">Solicitar explicación</button>` : `
           <div class="thread">
@@ -787,7 +914,9 @@ window.PREVIA_DATA = {
     $("#view").innerHTML = (V[S.view] || V.inicio)();
     renderOverlay();
     S.fresh = {};
+    hooks.forEach((f) => f());
   }
+  const hooks = [];
   function toast(html, ms = 3200) {
     const t = document.createElement("div");
     t.className = "toast"; t.innerHTML = html;
@@ -963,15 +1092,578 @@ window.PREVIA_DATA = {
         [["Detectado", "Alerta de consumo, 24/11/2026"], ["Investigó", "Sofía Benítez, jefa de obra"], ["Explicó", "Ramón Ortiz, capataz"], ["Causa", "Refuerzo de columnas eje B y 4 bolsas mojadas"], ["Acción", "Acopiar el cemento bajo techo y ajustar la previsión de las columnas del eje C."], ["Impacto", "$ 450.000"]]); }
     if (n >= 7) { S.role = "cliente"; S.mod.estado = "enviada"; S.mod.adjunto = true; A["aceptar-mod"](); S.role = "martin"; S.view = "comunicacion"; S.notif = false; }
   }
-  const fromHash = (location.hash.match(/escena-(\d)/) || [])[1];
+  const fromHash = (location.hash.match(/(?:escena|tour)-(\d)/) || [])[1];
   const n = parseInt(fromHash || new URLSearchParams(location.search).get("escena") || "1", 10);
   if (n > 1) preset(n);
   window.addEventListener("hashchange", () => { if (/escena-\d/.test(location.hash)) location.reload(); });
-  window.PREVIA = { state: S, render };
+  // la guía (guia.js) usa estos accesos: recorrido, modo «¿Por qué?», glosario y bienvenida
+  window.PREVIA = { state: S, render, actions: A, preset, toast, cargarEjemplo, scene: n, onRender: (f) => hooks.push(f) };
   render();
-  if (n === 1 && !navigator.webdriver) {
-    setTimeout(() => toast("<b>Prototipo navegable con datos ficticios</b><br>Creá una obra con \"+ Nueva obra\" o abrí la de ejemplo. Con el menú de la persona, arriba a la derecha, lo ves como cada actor.", 9000), 600);
+})();
+
+</script>
+<script>
+/* PREVIA, capa de guía: bienvenida, recorrido guiado, modo «¿Por qué?» y glosario.
+   Usa window.PREVIA (app.js). No modifica la lógica del prototipo: solo la recorre y la explica.
+   Las citas salen de los murales del equipo (testeos del mural 12 y mapas empáticos del mural 06).
+   En la página pública se muestra el rol de cada entrevistado, no su nombre. */
+(() => {
+  const P = window.PREVIA;
+  if (!P) return;
+  const S = P.state;
+  const $ = (s, r = document) => r.querySelector(s);
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const narrow = () => window.innerWidth < 860;
+
+  // ---------------- contenido ----------------
+  const DIMS = {
+    D1: "Precisión del presupuesto inicial",
+    D2: "Negocio rentable",
+    D3: "Control de gastos",
+    D4: "Relación comercial",
+    D5: "Tareas en tiempo y forma",
+    D6: "Adaptarse a los cambios",
+    D7: "Asumir responsabilidad sobre lo que está bajo su control"
+  };
+  const SRC = {
+    p1: "Testeo del prototipo 1, presupuestación (mural 12)",
+    p2: "Testeo del prototipo 2, presupuesto compartido (mural 12)",
+    p3: "Testeo del prototipo 3, tablero de obra (mural 12)",
+    t1711: "Testeo de la primera versión de PREVIA, 17/11"
+  };
+  // k: q = comentario de testeo, n = necesidad latente, i = insight
+  const q = (src, t) => ({ k: "q", s: SRC[src], t });
+  const nl = (rol, t) => ({ k: "n", s: `Mapa empático${rol ? " de " + rol : ""} (mural 06)`, t });
+  const ins = (rol, t) => ({ k: "i", s: `Mapa empático${rol ? " de " + rol : ""} (mural 06)`, t });
+  const KIND = { q: "Comentario de testeo", n: "Necesidad latente", i: "Insight" };
+
+  const POV = "Los dueños de empresas constructoras necesitan sentirse seguros al asumir compromisos económicos, mantener el control de sus obras y preservar la confianza de sus clientes, porque la rentabilidad depende de múltiples decisiones tomadas en condiciones de incertidumbre por distintos actores (clientes, proveedores y contratistas).";
+
+  // Cada función del prototipo, con la necesidad que resuelve y de dónde salió.
+  const WHY = {
+    importar: { sel: '[data-qa="importar"], [data-qa="file-excel"]', t: "Importar el Excel de siempre", d: ["D1"],
+      need: "Empezar con lo que la constructora ya tiene, sin volver a cargar el presupuesto.",
+      ev: [q("p1", "No quiero duplicar tareas. Si tengo que cargar manualmente toda la información que ya manejo en Excel o en otro sistema, probablemente no lo use.")] },
+    certeza: { sel: '[data-qa="certeza"]', t: "Barra de certeza", d: ["D1", "D2"],
+      need: "Ver qué parte del costo está confirmada, cuál depende de cotizaciones por vencer y cuál está sin definir, antes de comprometer un precio.",
+      ev: [nl("un gerente general de mantenimiento industrial", "Necesita distinguir qué parte del presupuesto es confiable y qué parte todavía está expuesta a cambiar"),
+           ins("una arquitecta independiente", "Quiere anticiparse a los imprevistos, pero los agrupa en un mismo 10% en lugar de distinguir dónde está realmente la incertidumbre"),
+           q("p1", "Poder distinguir entre costos confirmados, estimados y sujetos a incertidumbre me daría más herramientas para evaluar el riesgo antes de presentar una oferta.")] },
+    memoria: { sel: '[data-qa="memoria"], [data-qa="memoria-hierro"]', t: "Memoria de obras anteriores", d: ["D1"],
+      need: "Que cada obra terminada sirva de referencia para presupuestar la siguiente.",
+      ev: [nl("un gerente general de mantenimiento industrial", "Necesita que cada proyecto reduzca la incertidumbre del próximo"),
+           q("p1", "La idea de que cada obra terminada mejore la siguiente me resulta especialmente interesante."),
+           q("t1711", "Sería una herramienta de gran ayuda para una constructora, particularmente si puede comparar obras anteriores.")] },
+    simular: { sel: '[data-qa="simular"], .sim-row', t: "Simulador de escenarios", d: ["D2", "D6"],
+      need: "Saber cuánto margen se pierde si algo cambia, antes de ofertar y sin tocar el presupuesto.",
+      ev: [nl("un dueño de desarrolladora pyme", "Necesita sentir que puede reducir la incertidumbre antes de comprometer costos y tiempos."),
+           q("p3", "Me gusta que, cuando aumenta el precio del hierro, el sistema muestre el impacto sobre el costo total y permita evaluar alternativas."),
+           q("p3", "Me gustaría que me indique cuánto margen estoy perdiendo y qué decisiones puedo tomar para evitarlo. Saber que algo está en amarillo no alcanza.")] },
+    alertaHierro: { sel: '[data-qa="alerta-hierro"]', t: "Aviso de cotización por vencer", d: ["D3", "D2"],
+      need: "Enterarse a tiempo de que un precio puede cambiar y decidir si conviene cerrar la compra.",
+      ev: [nl("un gerente general de mantenimiento industrial", "Necesita anticipar qué podría hacer que el costo se aleje de lo previsto"),
+           q("p3", "Alertas de cotizaciones próximas a vencer: El tablero podría avisarme cuándo una cotización está por perder vigencia, para decidir si conviene cerrar una compra.")] },
+    solicitud: { sel: '[data-qa="solicitud"]', t: "Pedido de cotización a varios proveedores", d: ["D3", "D4"],
+      need: "Pedir precios a varios proveedores a la vez y elegirlos por su historial de cumplimiento.",
+      ev: [nl("un dueño de desarrolladora pyme", "Necesita poder confiar en proveedores sin depender únicamente del boca en boca y la prueba y error."),
+           q("p1", "Me falta ver cómo se relaciona con los proveedores. Una parte importante de la incertidumbre viene de cotizaciones que cambian, entregas que se atrasan o materiales que dejan de estar disponibles.")] },
+    ofertas: { sel: '[data-qa="ofertas"]', t: "Ofertas comparables y orden de compra", d: ["D3"],
+      need: "Comparar precio, entrega y validez en un solo lugar, y que la compra quede como costo comprometido en la partida.",
+      ev: [ins("un dueño de desarrolladora pyme", "Quiere que los proveedores presupuesten con precisión, pero cuando les entrega información incompleta ellos reducen su propio riesgo trasladándolo al precio."),
+           q("p3", "Una obra puede haber gastado mucho porque compró materiales anticipadamente, aunque todavía no estén colocados. El sistema debería distinguir compras, costos comprometidos y costos efectivamente ejecutados.")] },
+    kpis: { sel: '[data-qa="kpis"]', t: "Comprometido, pagado y costo final proyectado", d: ["D3", "D2"],
+      need: "Saber no solo cuánto se gastó, sino cuánto va a terminar costando la obra si sigue así.",
+      ev: [q("p3", "Proyección del costo final: Incorporaría una estimación actualizada de cuánto terminará costando la obra si continúa con las condiciones actuales.")] },
+    parte: { sel: '[data-qa="phone"]', t: "Parte diario desde el celular", d: ["D5", "D3"],
+      need: "Que lo que pasa en la obra llegue al sistema en el momento, sin planillas aparte.",
+      ev: [nl("un dueño de desarrolladora pyme", "Necesita poder delegar la ejecución sin perder el control sobre el resultado."),
+           q("p3", "Si el jefe de obra no carga los avances o administración no registra las facturas, el tablero deja de reflejar la realidad.")] },
+    alertaCemento: { sel: '[data-qa="alerta-cemento"]', t: "Alerta de desvío", d: ["D3"],
+      need: "Detectar un desvío cuando todavía hay tiempo de actuar.",
+      ev: [nl("un gerente general de mantenimiento industrial", "Necesita detectar un desvío cuando todavía está a tiempo de actuar"),
+           q("p3", "Me gusta que el sistema identifique visualmente cuándo una partida empieza a desviarse. No necesito revisar todos los números constantemente; quiero saber dónde tengo que prestar atención.")] },
+    causa: { sel: '[data-qa="nota-causa"]', t: "La alerta no diagnostica: investiga el equipo", d: ["D7", "D3"],
+      need: "Que cada alerta tenga un responsable, una explicación y una acción, y que cada uno responda por lo que depende de él.",
+      ev: [nl("una arquitecta de estudio", "Necesita sentir que solo responde por aquello que realmente depende de ella"),
+           q("p1", "¿Qué hace concretamente el sistema cuando detecta un problema, además de mostrarme una alerta?"),
+           q("p3", "Me parece positivo que las alertas se eleven a una persona responsable cuando superan determinados límites. No todas las decisiones deberían depender del dueño.")] },
+    modificacion: { sel: '[data-qa="mod-panel"]', t: "Modificaciones del cliente con costo y aprobación", d: ["D4", "D6"],
+      need: "Que cada cambio pedido por el cliente tenga su costo y su aprobación antes de ejecutarse.",
+      ev: [ins("una arquitecta dueña de estudio", "Quiere que ningún cambio avance sin aprobación, pero flexibiliza esa regla según el cliente o el tipo de modificación"),
+           q("p2", "¿Qué pasa si el cliente aprueba una modificación verbalmente, pero después desconoce haberla autorizado?"),
+           q("p2", "Registro formal de modificaciones: Cada cambio solicitado durante la ejecución debería generar un documento con su impacto económico, responsable y aprobación correspondiente.")] },
+    portalCliente: { sel: '[data-qa="portal-cliente"]', t: "Portal del cliente", d: ["D4"],
+      need: "Que el cliente sepa qué acepta antes de que se ejecute, y que defender lo que corresponde no dañe la relación.",
+      ev: [nl("una arquitecta de estudio", "Necesita sentir que defender lo que le corresponde no pone en riesgo el vínculo con el otro"),
+           nl("un socio de constructora familiar", "Necesita poder enfrentar los problemas sin sentir que pone en riesgo la relación con los demás")] },
+    historial: { sel: '[data-qa="timeline"], [data-qa="historial"]', t: "Historial de decisiones", d: ["D7", "D4"],
+      need: "Tener respaldo de cada compromiso: quién decidió, cuándo y con qué impacto.",
+      ev: [nl("una arquitecta dueña de estudio", "Necesita sentir que su credibilidad no depende de que todo salga según lo previsto"),
+           q("p1", "Registro de decisiones. Que el sistema no solo detecte riesgos, sino que registre qué decisión tomamos, por qué y cuál fue su resultado.")] },
+    roles: { sel: '[data-qa="role-btn"]', t: "Una vista para cada actor", d: ["D4"],
+      need: "Que dueño, jefa de obra, capataz, proveedor y cliente vean y hagan solo lo que les corresponde.",
+      ev: [q("t1711", "Me pareció bien los accesos y permisos de usuarios para resolver temas."),
+           q("p2", "¿El cliente ve todos los escenarios presupuestarios o algunos quedan exclusivamente para uso interno?")] }
+  };
+
+  // ---------------- glosario ----------------
+  const GL = [
+    [["partidas", "partida"], "Partida", "Cada rubro del presupuesto (por ejemplo, Hierro o Mampostería), con cantidad, precio unitario y subtotal."],
+    [["confirmado"], "Confirmado", "Precio respaldado por una orden de compra, un contrato o una cotización vigente."],
+    [["cotización por vencer", "por vencer"], "Por vencer", "Hay cotización, pero vence pronto: el precio todavía puede cambiar."],
+    [["sin definir"], "Sin definir", "Todavía no hay precio firme: es una estimación propia o falta elegir materiales."],
+    [["costos comprometidos", "costo comprometido", "comprometidos"], "Costo comprometido", "Lo que la constructora ya se obligó a pagar (órdenes de compra y contratos), aunque todavía no lo haya pagado."],
+    [["orden de compra"], "Orden de compra", "Documento que confirma la compra a un proveedor. Con ella, el precio de la partida pasa a confirmado."],
+    [["precio de oferta"], "Precio de oferta", "Lo que la constructora le cobra al cliente: el costo más el margen."],
+    [["margen previsto", "margen sobre precio"], "Margen", "Diferencia entre el precio de oferta y el costo de la obra. Es la ganancia esperada."],
+    [["costo final proyectado"], "Costo final proyectado", "Cuánto terminaría costando la obra si sigue como hasta ahora, sumando los desvíos detectados."],
+    [["avance físico"], "Avance físico", "Porcentaje de la obra efectivamente construido."],
+    [["parte diario", "partes diarios"], "Parte diario", "Registro que carga el capataz en la obra: tarea, materiales usados, personal, avance y fotos."],
+    [["acción correctiva"], "Acción correctiva", "Lo que el equipo decide hacer para que el desvío no se repita."],
+    [["escenario"], "Escenario", "Una simulación (por ejemplo, que el hierro suba 15 %) que se guarda sin modificar el presupuesto."],
+    [["costo adicional"], "Costo adicional", "Lo que suma al presupuesto una modificación pedida por el cliente."]
+  ];
+  const GLMAP = {};
+  GL.forEach(([forms, title, def]) => forms.forEach((f) => (GLMAP[f] = { title, def })));
+  const GLRE = new RegExp("(?<![\\p{L}])(" + Object.keys(GLMAP).sort((a, b) => b.length - a.length).map((f) => f.replace(/ /g, "\\s")).join("|") + ")(?![\\p{L}])", "iu");
+
+  function wrapTerms(root) {
+    if (!root) return;
+    const used = new Set();
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: (n) => {
+        const p = n.parentElement;
+        if (!p || !n.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        if (p.closest("select, option, input, textarea, abbr, script, style, .m-ok")) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach((node) => {
+      const m = node.nodeValue.match(GLRE);
+      if (!m) return;
+      const key = m[1].toLowerCase().replace(/\s+/g, " ");
+      const g = GLMAP[key];
+      if (!g || used.has(g.title)) return;
+      used.add(g.title);
+      const after = node.splitText(m.index);
+      after.splitText(m[1].length);
+      const ab = document.createElement("abbr");
+      ab.className = "gl"; ab.tabIndex = 0; ab.dataset.gl = key; ab.textContent = after.nodeValue;
+      after.replaceWith(ab);
+    });
   }
+  const tip = document.createElement("div");
+  tip.id = "gl-tip"; tip.hidden = true; tip.setAttribute("role", "tooltip");
+  document.body.appendChild(tip);
+  function showTip(el) {
+    const g = GLMAP[el.dataset.gl];
+    if (!g) return;
+    tip.innerHTML = `<b>${esc(g.title)}</b>${esc(g.def)}`;
+    tip.hidden = false;
+    const r = el.getBoundingClientRect(), w = Math.min(300, window.innerWidth - 24);
+    tip.style.width = w + "px";
+    const left = Math.max(12, Math.min(r.left, window.innerWidth - w - 12));
+    tip.style.left = left + "px";
+    const below = r.bottom + 8, h = tip.offsetHeight;
+    tip.style.top = (below + h < window.innerHeight - 8 ? below : Math.max(8, r.top - h - 8)) + "px";
+  }
+  document.addEventListener("mouseover", (e) => { const a = e.target.closest && e.target.closest("abbr.gl"); if (a) showTip(a); });
+  document.addEventListener("mouseout", (e) => { if (e.target.closest && e.target.closest("abbr.gl")) tip.hidden = true; });
+  document.addEventListener("focusin", (e) => { if (e.target.matches && e.target.matches("abbr.gl")) showTip(e.target); });
+  document.addEventListener("focusout", (e) => { if (e.target.matches && e.target.matches("abbr.gl")) tip.hidden = true; });
+  document.addEventListener("touchstart", (e) => { const a = e.target.closest && e.target.closest("abbr.gl"); if (a) { showTip(a); setTimeout(() => (tip.hidden = true), 3500); } }, { passive: true });
+
+  // ---------------- modo «¿Por qué?» ----------------
+  const dimChips = (ds) => ds.map((d) => `<span class="dim dim-${d}" title="${esc(DIMS[d])}">${d} · ${esc(DIMS[d])}</span>`).join("");
+  const evHtml = (ev) => ev.map((e) => `<blockquote class="ev ev-${e.k}"><span class="ev-k">${KIND[e.k]}</span>${esc(e.t)}<cite>${esc(e.s)}</cite></blockquote>`).join("");
+
+  function applyWhy() {
+    Object.entries(WHY).forEach(([key, w]) => {
+      document.querySelectorAll(w.sel).forEach((el) => { el.dataset.why = key; el.dataset.whyd = w.d.join(" "); });
+    });
+  }
+  const whyBtn = $("#btn-why");
+  const whyBar = document.createElement("div");
+  whyBar.id = "why-bar"; whyBar.hidden = true;
+  whyBar.innerHTML = `<span><b>Modo «¿Por qué?»</b> Tocá un elemento marcado para ver qué necesidad resuelve y de dónde salió. Mientras está activo, los botones marcados no ejecutan su acción.</span><button class="btn small" id="why-off">Salir</button>`;
+  document.body.appendChild(whyBar);
+  const pop = document.createElement("div");
+  pop.id = "why-pop"; pop.hidden = true;
+  document.body.appendChild(pop);
+
+  function setWhy(on) {
+    document.body.classList.toggle("why-on", on);
+    whyBtn.classList.toggle("on", on);
+    whyBtn.setAttribute("aria-pressed", on ? "true" : "false");
+    whyBar.hidden = !on;
+    if (!on) pop.hidden = true;
+  }
+  whyBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    hideWelcome();
+    const on = !document.body.classList.contains("why-on");
+    if (on && T) endTour();
+    setWhy(on);
+    if (on && !S.obra) { P.cargarEjemplo(); S.view = "presupuesto"; P.render(); }
+  });
+  $("#why-off").addEventListener("click", (e) => { e.stopPropagation(); setWhy(false); });
+
+  function showWhy(key, el) {
+    const w = WHY[key];
+    pop.innerHTML = `<button class="x" id="why-x" aria-label="Cerrar">×</button>
+      <div class="kick">¿Por qué existe esto?</div><h3>${esc(w.t)}</h3>
+      <div class="dims">${dimChips(w.d)}</div>
+      <p class="need"><b>Qué necesidad resuelve.</b> ${esc(w.need)}</p>
+      <div class="kick">De dónde salió</div>${evHtml(w.ev)}`;
+    pop.hidden = false;
+    $("#why-x").addEventListener("click", (e) => { e.stopPropagation(); pop.hidden = true; });
+    if (narrow()) { pop.className = "sheet"; pop.style.left = pop.style.top = ""; return; }
+    pop.className = "";
+    const r = el.getBoundingClientRect(), pw = 420, ph = pop.offsetHeight;
+    let x = r.right + 14, y = r.top;
+    if (x + pw > window.innerWidth - 12) x = Math.max(12, r.left - pw - 14);
+    if (x < 12 || r.width > window.innerWidth - pw - 40) { x = Math.max(12, Math.min(r.left, window.innerWidth - pw - 12)); y = r.bottom + 12; }
+    if (y + ph > window.innerHeight - 12) y = Math.max(12, window.innerHeight - ph - 12);
+    pop.style.left = x + "px"; pop.style.top = Math.max(12, y) + "px";
+  }
+  window.addEventListener("click", (e) => {
+    if (!document.body.classList.contains("why-on")) return;
+    if (e.target.closest("#why-pop, #why-bar, #btn-why, #tour-card")) return;
+    const el = e.target.closest("[data-why]");
+    if (!el) { pop.hidden = true; return; }
+    e.preventDefault(); e.stopPropagation();
+    showWhy(el.dataset.why, el);
+  }, true);
+
+  // ---------------- recorrido guiado ----------------
+  const click = (sel) => { const el = $(sel); if (el) el.click(); };
+  const fill = (sel, v) => {
+    const el = $(sel);
+    if (el && !el.value && document.activeElement !== el) { el.value = v; el.dispatchEvent(new Event("input", { bubbles: true })); }
+  };
+  const persona = (r) => P.state && window.PREVIA_DATA.personas[r];
+  function roleSteps(role, label) {
+    return [
+      { target: '[data-qa="role-btn"]', text: `Ahora mirá la obra como <b>${label}</b>. Abrí el menú de la persona, arriba a la derecha.`,
+        skip: () => S.role === role, done: () => !$("#role-menu").hidden || S.role === role, auto: () => click('[data-qa="role-btn"]') },
+      { target: [`[data-qa="role-${role}"]`, '[data-qa="role-btn"]'], text: `Elegí a <b>${esc(persona(role).nombre)}</b>.`,
+        skip: () => S.role === role, done: () => S.role === role,
+        auto: () => { if ($("#role-menu").hidden) click('[data-qa="role-btn"]'); click(`[data-qa="role-${role}"]`); } }
+    ];
+  }
+
+  const CH = [
+    { title: "Presupuestar con información incompleta", who: "martin", d: ["D1"],
+      intro: "Martín, dueño de una constructora pyme, tiene que cotizar la Vivienda Los Álamos (250 m²) sin tener todos los precios cerrados.",
+      f: "Saber dónde está la incertidumbre antes de comprometer un precio.", e: "Sentirse seguro al presupuestar sin tener toda la información.",
+      ev: [WHY.certeza.ev[0], WHY.importar.ev[0]],
+      steps: [
+        { target: '[data-qa="nueva-obra"]', text: "Tocá <b>+ Nueva obra</b>.", skip: () => !!S.obra, done: () => S.modal === "nuevaObra" || !!S.obra },
+        { target: ['[data-qa="crear-obra"]', '[data-qa="nueva-obra"]'], text: "Ya completamos el nombre y la superficie. Tocá <b>Crear obra</b>.",
+          prep: () => { fill("#f-nombre", "Vivienda Los Álamos"); fill("#f-m2", "250"); }, done: () => !!S.obra,
+          auto: () => { if (!S.modal) click('[data-qa="nueva-obra"]'); setTimeout(() => { fill("#f-nombre", "Vivienda Los Álamos"); fill("#f-m2", "250"); click('[data-qa="crear-obra"]'); }, 60); } },
+        { target: '[data-qa="importar"]', text: "PREVIA no te pide cargar todo de nuevo. Tocá <b>Importar presupuesto</b>.", done: () => S.modal === "importar" || !!S.importado },
+        { target: ['[data-qa="file-excel"]', '[data-qa="importar"]'], text: "Elegí la planilla de Excel con la que ya trabajás.", done: () => !!S.importado,
+          auto: () => { if (S.modal !== "importar") click('[data-qa="importar"]'); setTimeout(() => click('[data-qa="file-excel"]'), 60); } },
+        { target: '[data-qa="certeza"]', next: true, text: "La <b>barra de certeza</b> muestra cuánto del costo está confirmado, cuánto depende de cotizaciones por vencer y cuánto está sin definir. La incertidumbre queda a la vista antes de ofertar." },
+        { target: '[data-qa="row-hierro"]', text: "El hierro tiene una cotización que vence en dos días. Tocá la fila <b>Hierro ADN 420</b>.", done: () => S.drawer === "hierro" },
+        { target: '[data-qa="memoria-hierro"]', next: true, text: "PREVIA suma la memoria de obras anteriores: en obras pasadas, el hierro subió en promedio 9 % entre la cotización y la compra." }
+      ] },
+    { title: "Anticipar riesgos antes de comprometerse", who: "martin", d: ["D2", "D6"],
+      intro: "Antes de ofertar, Martín quiere saber qué le pasa al margen si el hierro sube.",
+      f: "Conocer el impacto en la rentabilidad.", e: "Decidir sin la sensación de estar apostando a ciegas.",
+      ev: [WHY.simular.ev[0], WHY.simular.ev[1]],
+      steps: [
+        { target: '[data-qa="simular"]', text: "Tocá <b>Simular escenario</b>.", skip: () => S.sim.guardado, done: () => S.modal === "simulador",
+          auto: () => { if (S.drawer !== "hierro") { S.view = "presupuesto"; S.drawer = "hierro"; P.render(); } click('[data-qa="simular"]'); } },
+        { target: '[data-qa="sim-mas"]', text: "Subí el precio del hierro a <b>+15 %</b>: tocá «+5 %» tres veces.", skip: () => S.sim.guardado, done: () => S.sim.pct >= 15,
+          auto: () => { S.sim.pct = 15; P.render(); } },
+        { target: ".sim-row", next: true, skip: () => S.sim.guardado, text: "Mirá cómo cambian el costo y el margen. Con +15 %, el margen baja de 12,6 % a 11 %. El presupuesto no se toca." },
+        { target: '[data-qa="guardar-escenario"]', text: "Tocá <b>Guardar escenario</b>.", done: () => S.sim.guardado },
+        { target: '[data-qa="alerta-hierro"]', next: true, text: "Queda un aviso con el impacto en el margen y el paso siguiente: pedir una nueva cotización." }
+      ] },
+    { title: "Conectar proveedores, compras y presupuesto", who: "martin", d: ["D3", "D4"],
+      intro: "Martín pide precios a varios proveedores. Uno responde desde su propio portal y la compra queda vinculada a la partida.",
+      f: "Comparar precio, plazo y validez en un solo lugar.", e: "Elegir proveedores por su historial y no solo por el boca en boca.",
+      ev: [WHY.solicitud.ev[0], WHY.solicitud.ev[1]],
+      steps: [
+        { target: '[data-qa="solicitar-cotizacion"]', text: "Tocá <b>Solicitar nueva cotización</b>.", skip: () => S.view === "compras", done: () => S.view === "compras" },
+        { target: '[data-qa="prov-lista"]', text: "Cada proveedor muestra su historial de entregas. Marcá al menos dos, incluida <b>Metalúrgica Oeste</b>.",
+          skip: () => S.solicitud.enviada, done: () => S.solicitud.provs.includes("oeste") && S.solicitud.provs.length >= 2,
+          auto: () => { S.solicitud.provs = ["sur", "oeste", "sm"]; P.render(); } },
+        { target: '[data-qa="enviar-solicitud"]', text: "Tocá <b>Enviar solicitud</b>.", done: () => S.solicitud.enviada },
+        ...roleSteps("proveedor", "un proveedor"),
+        { target: '[data-qa="enviar-oferta"]', text: "Ahora sos Metalúrgica Oeste. Cargamos tu oferta: $ 3.310 por kg. Tocá <b>Enviar oferta</b>.",
+          prep: () => { fill("#of-precio", "3310"); fill("#of-entrega", "28/11"); const v = $("#of-validez"); if (v && v.dataset.tour !== "1") { v.value = "10 días"; v.dataset.tour = "1"; } },
+          done: () => !!S.oferta },
+        ...roleSteps("martin", "el dueño"),
+        { target: ['[data-qa="oferta-oeste"]', '[data-qa="ofertas"]'], text: "Las ofertas llegan comparables. Elegí la de <b>Metalúrgica Oeste</b>.", done: () => !!S.ofertaSel },
+        { target: '[data-qa="generar-oc"]', text: "Tocá <b>Generar orden de compra</b>. El monto pasa a costo comprometido y el hierro queda confirmado.", done: () => !!S.oc }
+      ] },
+    { title: "Conocer lo que pasa en la obra", who: "ramon", d: ["D5", "D3"],
+      intro: "Ramón, el capataz, registra el día de trabajo desde el celular.",
+      f: "Registrar en el momento, sin planillas aparte.", e: "Que su trabajo quede visible para la jefa de obra y el dueño.",
+      ev: [WHY.parte.ev[1], WHY.parte.ev[0]],
+      steps: [
+        ...roleSteps("ramon", "el capataz, en el celular"),
+        { target: '[data-qa="m-obra"]', text: "Ramón abre su obra.", done: () => S.mobile !== "obras" },
+        { target: '[data-qa="m-nuevo-parte"]', text: "Tocá <b>+ Nuevo parte diario</b>.", done: () => S.mobile === "parte" || S.mobile === "ok" },
+        { target: '[data-qa="m-enviar"]', text: "Cargamos el parte de hoy: 15 bolsas de cemento, 2 m³ de arena, 120 kg de hierro, 6 operarios y 75 % de avance. Podés sumar una foto. Tocá <b>Enviar parte</b>.",
+          prep: () => { const t = $("#m-tarea"); if (t && !t.value) t.value = "Hormigonado de columnas"; fill("#m-cemento", "15"); fill("#m-arena", "2"); fill("#m-hierro", "120"); fill("#m-personal", "6"); fill("#m-avance", "75"); },
+          done: () => S.mobile === "ok" },
+        { target: '[data-qa="m-ok"]', next: true, text: "Listo: el consumo de materiales y el avance se actualizan solos para la jefa de obra." }
+      ] },
+    { title: "Detectar un desvío y coordinar una respuesta", who: "sofia", d: ["D3", "D7"],
+      intro: "Sofía, la jefa de obra, ve que el consumo de cemento superó lo previsto.",
+      f: "Actuar antes de que el desvío crezca.", e: "Sentir el control de lo que sí depende del equipo.",
+      ev: [WHY.alertaCemento.ev[0], WHY.causa.ev[1]],
+      steps: [
+        ...roleSteps("sofia", "la jefa de obra"),
+        { target: '[data-qa="alerta-cemento"]', next: true, text: "Apareció una alerta: el cemento registrado supera lo previsto para las columnas." },
+        { target: '[data-qa="ver-detalle-cemento"]', text: "Tocá <b>Ver detalle</b>.", done: () => S.drawer === "cemento" },
+        { target: '[data-qa="nota-causa"]', next: true, text: "La alerta muestra una diferencia, no su causa. <b>PREVIA no diagnostica</b>: la causa la determinan las personas." },
+        { target: '[data-qa="solicitar-explicacion"]', text: "Pedile la explicación a Ramón. Ya lo elegimos como responsable: tocá <b>Solicitar explicación</b>.",
+          prep: () => { const r = $("#resp"); if (r && !r.value) r.value = "ramon"; }, done: () => !!S.expl.estado },
+        { target: ['[data-qa="registrar-accion"]', '[data-qa="nota-causa"]'], text: "Ramón responde desde la obra (tarda unos segundos). Después tocá <b>Registrar acción</b>: ya escribimos la acción correctiva.",
+          prep: () => fill("#accion", "Acopiar el cemento bajo techo y ajustar la previsión de las columnas del eje C."), done: () => S.expl.estado === "resuelta" }
+      ] },
+    { title: "Gestionar una modificación del cliente", who: "martin", d: ["D4", "D6"],
+      intro: "Carolina, la cliente, pide porcelanato premium en el living. El cambio se cotiza y ella lo aprueba antes de que se ejecute.",
+      f: "Que el costo del cambio quede claro y aprobado.", e: "No sentir que se defrauda al cliente cuando lo acordado cambia.",
+      ev: [WHY.modificacion.ev[0], WHY.modificacion.ev[1]],
+      steps: [
+        ...roleSteps("martin", "el dueño"),
+        { target: '[data-qa="bell"]', text: "Llegó una solicitud de la cliente. Tocá la <b>campana</b>.", skip: () => S.view === "comunicacion" || S.mod.estado !== "recibida", done: () => S.view === "comunicacion" },
+        { target: '[data-qa="evaluar-mod"]', text: "Tocá <b>Evaluar modificación</b>.", done: () => S.modal === "evaluarMod" || (S.mod.estado && S.mod.estado !== "recibida") },
+        { target: '[data-qa="adjuntar-cot"]', text: "Martín adjunta la cotización del porcelanato premium.", skip: () => S.mod.estado !== "recibida", done: () => S.mod.adjunto },
+        { target: '[data-qa="enviar-aprobacion"]', text: "Nuevo costo: $ 4.200.000, o sea $ 1.200.000 más, sin cambio de plazo. Tocá <b>Enviar para aprobación</b>.",
+          prep: () => fill("#mod-nuevo", "4200000"), done: () => S.mod.estado === "enviada" || S.mod.estado === "aprobada" },
+        ...roleSteps("cliente", "la cliente"),
+        { target: '[data-qa="aceptar-mod"]', text: "Carolina ve el costo adicional antes de que se ejecute. Tocá <b>Aceptar modificación y costo adicional</b>.", done: () => S.mod.estado === "aprobada" }
+      ] },
+    { title: "Recuperar las decisiones", who: "martin", d: ["D7", "D4"],
+      intro: "Al final, todo lo que se decidió queda registrado en la obra.",
+      f: "Tener respaldo de cada compromiso.", e: "Que la credibilidad no dependa de que todo salga según lo previsto.",
+      ev: [WHY.historial.ev[0], WHY.historial.ev[1]],
+      steps: [
+        ...roleSteps("martin", "el dueño"),
+        { target: '[data-qa="nav-tablero"]', text: "Abrí el <b>Tablero de obra</b> en el menú.", done: () => S.view === "tablero" },
+        { target: '[data-qa="historial"]', text: "Tocá <b>Historial de decisiones</b>.", done: () => !!S.showHist },
+        { target: ['[data-qa="hist-mod004"]', '[data-qa="timeline"]'], text: "Las tres decisiones quedaron registradas. Tocá la <b>modificación #004</b>.", done: () => S.drawer === "mod004" },
+        { target: ".drawer", next: true, text: "Quién la pidió, quién la evaluó, quién la aprobó, cuándo y con qué impacto." }
+      ] }
+  ];
+
+  // T = { ch: índice de escena (0 a 6), i: -1 = tarjeta de la escena, 0.. = paso; intro: tarjeta general }
+  let T = null, lastKey = null;
+  const card = document.createElement("div");
+  card.id = "tour-card"; card.hidden = true; card.setAttribute("role", "dialog"); card.setAttribute("aria-live", "polite");
+  const spot = document.createElement("div");
+  spot.className = "tour-spot"; spot.hidden = true;
+  const dim = document.createElement("div");
+  dim.className = "tour-dim"; dim.hidden = true;
+  document.body.append(dim, spot, card);
+  card.addEventListener("click", (e) => e.stopPropagation());
+
+  function go(hash) { location.hash = hash; location.reload(); }
+  function setHash(ch) { history.replaceState(null, "", location.pathname + location.search + "#tour-" + (ch + 1)); }
+  function startTour(ch, intro) {
+    setWhy(false);
+    T = { ch, i: -1, intro: !!intro };
+    setHash(ch); lastKey = null; tick();
+  }
+  function endTour() {
+    T = null; card.hidden = true; spot.hidden = true; dim.hidden = true;
+    history.replaceState(null, "", location.pathname + location.search);
+  }
+  const step = () => (T && T.i >= 0 ? CH[T.ch].steps[T.i] : null);
+  function nextStep() {
+    if (!T) return;
+    if (T.intro) { T.intro = false; T.i = -1; lastKey = null; return; }
+    T.i++;
+    if (T.i >= CH[T.ch].steps.length) {
+      if (T.ch < CH.length - 1) { T.ch++; T.i = -1; setHash(T.ch); }
+      else { T.i = CH[T.ch].steps.length; }
+    }
+    lastKey = null;
+  }
+  // desplaza solo el contenedor que corresponde (no la página entera, que en escritorio no scrollea)
+  function scrollToEl(el) {
+    const box = el.closest("#view, .drawer, .m-body, .modal");
+    const r = el.getBoundingClientRect();
+    if (box && box.scrollHeight > box.clientHeight + 2 && !(narrow() && box.id === "view")) {
+      const b = box.getBoundingClientRect();
+      if (r.top < b.top + 20 || r.bottom > b.bottom - 20) box.scrollBy({ top: r.top - b.top - (b.height - r.height) / 2, behavior: "smooth" });
+    } else if (r.top < 70 || r.bottom > window.innerHeight - 20) {
+      window.scrollBy({ top: r.top - (window.innerHeight - r.height) / 2, behavior: "smooth" });
+    }
+  }
+  function findTarget(sel) {
+    for (const s of [].concat(sel || [])) {
+      const el = $(s);
+      if (el && el.getClientRects().length && el.getBoundingClientRect().width > 0) return el;
+    }
+    return null;
+  }
+
+  const dots = () => `<div class="dots">${CH.map((c, k) => `<button class="dot ${T && k === T.ch ? "on" : ""} ${T && k < T.ch ? "done" : ""}" data-ch="${k}" title="Escena ${k + 1}: ${esc(c.title)}" aria-label="Ir a la escena ${k + 1}"></button>`).join("")}</div>`;
+  function cardHtml() {
+    const c = CH[T.ch];
+    const head = `<div class="tc-head"><span class="tc-kick">${T.intro ? "Recorrido guiado" : `Escena ${T.ch + 1} de ${CH.length}`}</span>${dots()}<button class="x" data-t="exit" aria-label="Salir del recorrido">×</button></div>`;
+    if (T.intro) {
+      return head + `<h3>Así funciona PREVIA, de punta a punta</h3>
+        <p>Vas a seguir una obra ficticia, la Vivienda Los Álamos, en <b>7 escenas</b> (unos 3 minutos). En cada una hacés la acción vos: te marcamos qué tocar, y si preferís, PREVIA lo hace por vos.</p>
+        <div class="kick">El punto de vista que guía el prototipo</div>
+        <blockquote class="ev ev-pov">${esc(POV)}<cite>Punto de vista del equipo (mural 07)</cite></blockquote>
+        <p class="small muted">Cada escena muestra qué necesidad resuelve, qué dimensión ataca y de qué entrevista o testeo salió.</p>
+        <div class="tc-foot"><button class="btn" data-t="exit">Ahora no</button><button class="btn primary" data-t="next">Empezar</button></div>`;
+    }
+    if (T.i === -1) {
+      const p = window.PREVIA_DATA.personas[c.who];
+      return head + `<h3>${esc(c.title)}</h3>
+        <div class="who"><span class="avatar">${p.ini}</span><span>${esc(p.nombre)}<small>${esc(p.rol)}</small></span></div>
+        <p>${esc(c.intro)}</p>
+        <div class="dims">${dimChips(c.d)}</div>
+        <dl class="needs"><dt>Necesidad funcional</dt><dd>${esc(c.f)}</dd><dt>Necesidad emocional</dt><dd>${esc(c.e)}</dd></dl>
+        <div class="kick">De dónde salió</div>${evHtml(c.ev)}
+        <div class="tc-foot"><button class="link" data-t="restart">Reiniciar escena</button><button class="btn primary" data-t="next">${T.ch === 0 ? "Empezar la escena" : "Seguir"}</button></div>`;
+    }
+    if (T.i >= c.steps.length) {
+      return head + `<h3>Recorrido terminado</h3>
+        <p>Viste cómo PREVIA acompaña la obra desde el presupuesto hasta las decisiones: la incertidumbre a la vista, los riesgos simulados, las compras vinculadas, el parte diario, los desvíos con responsable, los cambios aprobados y el historial.</p>
+        <p>Activá <b>«¿Por qué?»</b>, arriba, para ver de qué necesidad del trabajo de campo sale cada función. O explorá libremente con el menú de la izquierda y el selector de persona.</p>
+        <div class="tc-foot"><button class="link" data-t="again">Repetir el recorrido</button><button class="btn" data-t="why">Activar «¿Por qué?»</button><button class="btn primary" data-t="exit">Explorar libremente</button></div>`;
+    }
+    const st = step();
+    return head + `<div class="tc-step">${esc(c.title)}</div><p class="tc-text">${st.text}</p>
+      ${st.next ? "" : `<p class="tc-wait">Tocá el elemento resaltado para seguir.</p>`}
+      <div class="tc-foot"><button class="link" data-t="restart">Reiniciar escena</button>
+      ${st.next ? `<button class="btn primary" data-t="next">Siguiente</button>` : `<button class="btn" data-t="auto">Hacerlo por mí</button>`}</div>`;
+  }
+
+  card.addEventListener("click", (e) => {
+    const b = e.target.closest("button");
+    if (!b || !T) return;
+    if (b.dataset.ch) { go("tour-" + (parseInt(b.dataset.ch, 10) + 1)); return; }
+    const t = b.dataset.t;
+    if (t === "exit") endTour();
+    else if (t === "next") { nextStep(); tick(); }
+    else if (t === "restart") go("tour-" + (T.ch + 1));
+    else if (t === "again") go("tour-1");
+    else if (t === "why") { endTour(); setWhy(true); }
+    else if (t === "auto") { const st = step(); if (st) (st.auto || (() => click([].concat(st.target)[0])))(); setTimeout(tick, 120); }
+  });
+
+  function tick() {
+    if (!T) return;
+    // pasos que ya se cumplieron o no aplican
+    let guard = 0;
+    while (T && T.i >= 0 && guard++ < 40) {
+      const st = step();
+      if (!st) break;
+      if ((st.skip && st.skip()) || (!st.next && st.done && st.done())) { nextStep(); continue; }
+      break;
+    }
+    const st = step();
+    const key = T.intro ? "intro" : `${T.ch}:${T.i}`;
+    if (key !== lastKey) {
+      card.innerHTML = cardHtml();
+      lastKey = key;
+      const el = st && findTarget(st.target);
+      if (el) scrollToEl(el);
+    }
+    if (st && st.prep) st.prep();
+    place(st);
+  }
+
+  function place(st) {
+    card.hidden = false;
+    const el = st && findTarget(st.target);
+    const isCard = !st;
+    dim.hidden = !isCard && !!el;
+    card.classList.toggle("center", isCard || (!el && !narrow()));
+    card.classList.toggle("sheet", !isCard && narrow());
+    if (!el) { spot.hidden = true; card.style.left = card.style.top = ""; return; }
+    const r = el.getBoundingClientRect(), pad = 6;
+    spot.hidden = false;
+    Object.assign(spot.style, { left: r.left - pad + "px", top: r.top - pad + "px", width: r.width + pad * 2 + "px", height: r.height + pad * 2 + "px" });
+    if (narrow()) { card.style.left = card.style.top = ""; return; }
+    const vw = window.innerWidth, vh = window.innerHeight, cw = card.offsetWidth, chh = card.offsetHeight, m = 16;
+    let x, y;
+    if (r.right + m + cw < vw - m) { x = r.right + m; y = r.top; }
+    else if (r.left - m - cw > m) { x = r.left - m - cw; y = r.top; }
+    else if (r.bottom + m + chh < vh - m) { x = r.left; y = r.bottom + m; }
+    else if (r.top - m - chh > m) { x = r.left; y = r.top - m - chh; }
+    else { x = vw - cw - m; y = vh - chh - m; }
+    x = Math.max(m, Math.min(x, vw - cw - m)); y = Math.max(m, Math.min(y, vh - chh - m));
+    card.style.left = x + "px"; card.style.top = y + "px";
+  }
+  setInterval(tick, 250);
+  window.addEventListener("resize", () => { if (T) place(step()); });
+
+  // botón del recorrido en la barra superior
+  $("#btn-tour").addEventListener("click", (e) => {
+    e.stopPropagation();
+    hideWelcome();
+    if (!S.obra && S.role === "martin") startTour(0, true);
+    else go("tour-1");
+  });
+
+  // ---------------- bienvenida ----------------
+  const ROLE_CARDS = [
+    ["martin", "Presupuesta con información incompleta, simula riesgos y compra."],
+    ["sofia", "Controla lo planificado contra lo ejecutado y gestiona los desvíos."],
+    ["ramon", "Carga el parte diario desde el celular."],
+    ["proveedor", "Responde pedidos de cotización desde su portal."],
+    ["cliente", "Aprueba los cambios y su costo antes de que se ejecuten."]
+  ];
+  const welcome = document.createElement("div");
+  welcome.id = "welcome"; welcome.hidden = true;
+  welcome.innerHTML = `<div class="wel" role="dialog" aria-labelledby="wel-t">
+    <div class="wel-brand"><svg viewBox="0 0 40 34" aria-hidden="true"><path d="M0 9 L20 0 L40 9 L40 14 L20 5 L0 14Z" fill="#16a58f"/><path d="M0 19 L20 10 L40 19 L40 24 L20 15 L0 24Z" fill="#1f8a87"/><path d="M0 29 L20 20 L40 29 L40 34 L20 25 L0 34Z" fill="#14687a"/></svg>PREVIA</div>
+    <h2 id="wel-t">Previsibilidad de costos para constructoras pyme</h2>
+    <p>Prototipo navegable del Equipo 03 (A360 Estrategias de Innovación, UdeSA). Todo funciona con una obra ficticia, la Vivienda Los Álamos, y datos inventados.</p>
+    <div class="wel-cta"><button class="btn primary big" data-w="tour">▶ Hacer el recorrido guiado<small>7 escenas, unos 3 minutos</small></button><button class="btn big" data-w="free">Explorar por mi cuenta<small>Con la obra de ejemplo cargada</small></button></div>
+    <div class="kick">O entrá directamente como…</div>
+    <div class="wel-roles">${ROLE_CARDS.map(([r, t]) => { const p = window.PREVIA_DATA.personas[r]; return `<button class="wel-role" data-w="rol" data-r="${r}"><span class="avatar">${p.ini}</span><b>${esc(p.nombre)}</b><small>${esc(p.rol)}</small><span>${esc(t)}</span></button>`; }).join("")}</div>
+    <p class="small muted wel-tip">Tip: con <b>«¿Por qué?»</b>, arriba, ves de qué entrevista o testeo sale cada función. Los términos subrayados tienen su explicación.</p>
+  </div>`;
+  document.body.appendChild(welcome);
+  function hideWelcome() { welcome.hidden = true; }
+  welcome.addEventListener("click", (e) => {
+    const b = e.target.closest("button");
+    if (e.target === welcome) { hideWelcome(); return; }
+    if (!b) return;
+    e.stopPropagation();
+    if (b.dataset.w === "tour") { hideWelcome(); startTour(0, true); }
+    else if (b.dataset.w === "free") { hideWelcome(); if (!S.obra) { P.cargarEjemplo(); S.view = "presupuesto"; P.render(); } }
+    else if (b.dataset.w === "rol") go("rol-" + b.dataset.r);
+  });
+
+  // ---------------- arranque ----------------
+  function enterAs(r) {
+    if (r === "martin") { P.cargarEjemplo(); S.view = "presupuesto"; }
+    else if (r === "sofia") P.preset(5);
+    else if (r === "ramon") P.preset(4);
+    else if (r === "proveedor") { P.preset(3); S.solicitud.enviada = true; S.solicitud.provs = ["sur", "oeste", "sm"]; S.role = "proveedor"; S.view = "proveedor"; }
+    else if (r === "cliente") { P.preset(6); S.mod.estado = "enviada"; S.mod.adjunto = true; S.role = "cliente"; S.view = "cliente"; }
+    else return;
+    const p = window.PREVIA_DATA.personas[r];
+    P.render();
+    P.toast(`<b>Estás viendo PREVIA como ${esc(p.nombre)}</b><br>${esc(p.rol)}. Cambiá de persona con el menú de arriba a la derecha.`, 6000);
+  }
+
+  P.onRender(() => { applyWhy(); wrapTerms($("#view")); wrapTerms($("#overlay")); });
+  applyWhy(); wrapTerms($("#view"));
+
+  const h = location.hash;
+  const mTour = h.match(/^#tour-(\d)$/), mRol = h.match(/^#rol-(\w+)$/);
+  if (navigator.webdriver) return; // las grabaciones del video no muestran la guía
+  if (mTour) startTour(Math.min(CH.length, Math.max(1, parseInt(mTour[1], 10))) - 1, mTour[1] === "1");
+  else if (mRol) { history.replaceState(null, "", location.pathname + location.search); enterAs(mRol[1]); }
+  else if (P.scene === 1) welcome.hidden = false;
 })();
 
 </script>
